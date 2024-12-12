@@ -1,5 +1,6 @@
 package com.aldinalj.triptip.user.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +16,8 @@ public class CustomUser {
 
     @NotBlank
     @Size(min = 1, max = 20, message = "Length must be between 1-20 characters")
-    private String display_name;
+    @JsonProperty("display_name")
+    private String displayName;
 
     @NotBlank(message = "Email is not valid.")
     @Email
@@ -27,8 +29,8 @@ public class CustomUser {
 
     public CustomUser() {}
 
-    public CustomUser(String display_name, String email, String password) {
-        this.display_name = display_name;
+    public CustomUser(String displayName, String email, String password) {
+        this.displayName = displayName;
         this.email = email;
         this.password = password;
     }
@@ -37,12 +39,12 @@ public class CustomUser {
         return id;
     }
 
-    public String getDisplay_name() {
-        return display_name;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setDisplay_name(String display_name) {
-        this.display_name = display_name;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public String getEmail() {
