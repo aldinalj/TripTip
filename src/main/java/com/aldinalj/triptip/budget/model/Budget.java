@@ -1,4 +1,4 @@
-package com.aldinalj.budget.model;
+package com.aldinalj.triptip.budget.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -13,7 +13,8 @@ public class Budget {
     private Long id;
 
     @Size(min = 2, max = 20, message = "Name must be between 2-20 characters long")
-    @JsonProperty("budget_name")
+    @Column(name = "name")
+    @JsonProperty("name")
     private String budgetName;
 
     private double total;

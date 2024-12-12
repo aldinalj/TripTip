@@ -16,7 +16,8 @@ public class CustomUser {
 
     @NotBlank
     @Size(min = 1, max = 20, message = "Length must be between 1-20 characters")
-    @JsonProperty("display_name")
+    @Column(name = "name")
+    @JsonProperty("name")
     private String displayName;
 
     @NotBlank(message = "Email is not valid.")

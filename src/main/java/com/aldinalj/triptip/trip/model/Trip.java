@@ -16,15 +16,18 @@ public class Trip {
     private Long id;
 
     @Size(min = 1, max = 25)
-    @JsonProperty("trip_name")
+    @Column(name = "name")
+    @JsonProperty("name")
     private String tripName;
 
     @Max(40)
     private String country;
 
+    @Column(name = "start_date")
     @JsonProperty("start_date")
     private LocalDate startDate;
 
+    @Column(name = "end_date")
     @JsonProperty("end_date")
     private LocalDate endDate;
 
