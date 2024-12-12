@@ -17,11 +17,11 @@ public class Budget {
     @JsonProperty("name")
     private String budgetName;
 
-    private double total;
+    private Double total;
 
     public Budget() {}
 
-    public Budget(String budgetName, double total) {
+    public Budget(String budgetName, Double total) {
         this.budgetName = budgetName;
         this.total = total;
     }
@@ -42,7 +42,7 @@ public class Budget {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 }

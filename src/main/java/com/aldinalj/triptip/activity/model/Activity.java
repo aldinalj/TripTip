@@ -2,7 +2,6 @@ package com.aldinalj.triptip.activity.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -20,15 +19,15 @@ public class Activity {
 
     @JsonProperty("price_min")
     @Column(name = "price_min")
-    private double priceMin;
+    private Double priceMin;
 
     @JsonProperty("price_max")
     @Column(name = "price_max")
-    private double priceMax;
+    private Double priceMax;
 
     public Activity() {}
 
-    public Activity(String activityName, double priceMin, double priceMax) {
+    public Activity(String activityName, Double priceMin, Double priceMax) {
         this.activityName = activityName;
         this.priceMin = priceMin;
         this.priceMax = priceMax;
@@ -50,7 +49,7 @@ public class Activity {
         return priceMin;
     }
 
-    public void setPriceMin(double priceMin) {
+    public void setPriceMin(Double priceMin) {
         this.priceMin = priceMin;
     }
 
@@ -58,7 +57,7 @@ public class Activity {
         return priceMax;
     }
 
-    public void setPriceMax(double priceMax) {
+    public void setPriceMax(Double priceMax) {
         this.priceMax = priceMax;
     }
 }
