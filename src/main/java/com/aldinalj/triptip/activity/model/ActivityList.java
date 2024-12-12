@@ -1,12 +1,11 @@
 package com.aldinalj.triptip.activity.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+@Entity
+@Table(name = "activity_list")
 public class ActivityList {
 
     @Id
