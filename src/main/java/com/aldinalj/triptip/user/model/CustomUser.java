@@ -1,11 +1,7 @@
 package com.aldinalj.triptip.user.model;
 
 import com.aldinalj.triptip.user.authorities.UserRole;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -15,22 +11,15 @@ public class CustomUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Name is required.")
-    @Size(min = 1, max = 20, message = "Name must be between 1-20 characters")
     @Column(name = "name")
-    @JsonProperty("name")
     private String displayName;
 
-    @NotBlank(message = "You must fill in an email address.")
-    @Email(message = "Email is not valid.")
     private String email;
-
-    @NotBlank(message = "Password is required.")
-    @Size(min = 8, max = 30, message = "Length must be between 8-30 characters long")
     private String password;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
     private boolean isAccountNonExpired;
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
@@ -116,5 +105,19 @@ public class CustomUser {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomUser{" +
+                "displayName='" + displayName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                ", isAccountNonExpired=" + isAccountNonExpired +
+                ", isAccountNonLocked=" + isAccountNonLocked +
+                ", isCredentialsNonExpired=" + isCredentialsNonExpired +
+                ", isEnabled=" + isEnabled +
+                '}';
     }
 }
