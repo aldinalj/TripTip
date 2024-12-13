@@ -7,24 +7,24 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class CustomUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 1, max = 20, message = "Length must be between 1-20 characters")
+    @NotBlank(message = "Name is required.")
+    @Size(min = 1, max = 20, message = "Name must be between 1-20 characters")
     @Column(name = "name")
     @JsonProperty("name")
     private String displayName;
 
-    @NotBlank(message = "Email is not valid.")
-    @Email
+    @NotBlank(message = "You must fill in an email address.")
+    @Email(message = "Email is not valid.")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "Password is required.")
     @Size(min = 8, max = 30, message = "Length must be between 8-30 characters long")
     private String password;
 

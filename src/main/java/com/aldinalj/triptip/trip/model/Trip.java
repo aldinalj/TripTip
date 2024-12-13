@@ -2,7 +2,7 @@ package com.aldinalj.triptip.trip.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
@@ -15,12 +15,13 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 1, max = 25)
+    @NotBlank(message = "Trip name is required.")
+    @Size(min = 1, max = 25, message = "Trip name must be between 1-25 characters long.")
     @Column(name = "name")
     @JsonProperty("name")
     private String tripName;
 
-    @Max(40)
+    @Size(max = 40, message = "Country name cannot be more than 40 characters.")
     private String country;
 
     @Column(name = "start_date")

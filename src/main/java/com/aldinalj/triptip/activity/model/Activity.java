@@ -2,6 +2,8 @@ package com.aldinalj.triptip.activity.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -17,10 +19,12 @@ public class Activity {
     @JsonProperty("name")
     private String activityName;
 
+    @Min(value = 0, message = "Minimum price cannot be negative.")
     @JsonProperty("price_min")
     @Column(name = "price_min")
     private Double priceMin;
 
+    @Max(value = 0, message = "Maximum price cannot be negative.")
     @JsonProperty("price_max")
     @Column(name = "price_max")
     private Double priceMax;

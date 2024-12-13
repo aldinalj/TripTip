@@ -2,6 +2,7 @@ package com.aldinalj.triptip.budget.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -17,6 +18,7 @@ public class Budget {
     @JsonProperty("name")
     private String budgetName;
 
+    @Min(value = 0, message = "Total cannot be a negative number.")
     private Double total;
 
     public Budget() {}
@@ -38,7 +40,7 @@ public class Budget {
         this.budgetName = budgetName;
     }
 
-    public double getTotal() {
+    public Double getTotal() {
         return total;
     }
 

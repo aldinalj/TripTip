@@ -2,6 +2,7 @@ package com.aldinalj.triptip.activity.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -12,6 +13,7 @@ public class ActivityList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "You must fill in a name.")
     @Size(min = 2, max = 20, message = "Name must be between 2-20 characters long")
     @Column(name = "name")
     @JsonProperty("name")
