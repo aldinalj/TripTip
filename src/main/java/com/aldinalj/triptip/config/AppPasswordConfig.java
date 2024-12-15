@@ -1,4 +1,4 @@
-package com.aldinalj.triptip.config.security;
+package com.aldinalj.triptip.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

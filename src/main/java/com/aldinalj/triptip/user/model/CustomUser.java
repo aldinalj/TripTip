@@ -2,6 +2,9 @@ package com.aldinalj.triptip.user.model;
 
 import com.aldinalj.triptip.user.authorities.UserRole;
 import jakarta.persistence.*;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -37,6 +40,10 @@ public class CustomUser {
         this.isAccountNonLocked = isAccountNonLocked;
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnabled = isEnabled;
+    }
+
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        return userRole.getAuthorities();
     }
 
     public Long getId() {
