@@ -38,3 +38,6 @@ out/
 
 ### application.properties ###
 src/main/resources/application.properties
+
+### DevController ###
+src/main/java/com/aldinalj/triptip/user/controller/DevController.java

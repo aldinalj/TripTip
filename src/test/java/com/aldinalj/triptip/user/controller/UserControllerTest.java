@@ -32,9 +32,9 @@ class UserControllerTest {
     void setInitialUser() {
 
         CustomUser user = new CustomUser(
+                "John",
                 "JohnDoe",
-                "JohnDoe@gmail.com",
-                "johndoe76",
+                "blueberrypie",
                 UserRole.USER,
                 true,
                 true,
@@ -51,14 +51,14 @@ class UserControllerTest {
                 .contentType("application/json")
                 .content("""
                         {
-                            "name": "Jane",
-                            "email": "janesmith@gmail.com",
+                            "display_name": "Jane",
+                            "username": "JaneSmith78",
                             "password": "applepie12"
                         }
                         """))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Jane"))
-                .andExpect(jsonPath("$.email").value("janesmith@gmail.com"));
+                .andExpect(jsonPath("$.display_name").value("Jane"))
+                .andExpect(jsonPath("$.username").value("JaneSmith78"));
     }
 
     @Test
@@ -67,8 +67,8 @@ class UserControllerTest {
                         .contentType("application/json")
                         .content(""" 
                                 {
-                                  "name": "John",
-                                  "email": "JohnDoe@gmail.com",
+                                  "display_name": "Johnny",
+                                  "username": "JohnDoe",
                                   "password": "pumpkinpie"
                                 }
                                 """))

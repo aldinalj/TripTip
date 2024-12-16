@@ -27,7 +27,7 @@ public class UserService {
 
         CustomUser customUser = new CustomUser(
                 customUserDTO.displayName(),
-                customUserDTO.email(),
+                customUserDTO.username(),
                 passwordEncoder.encode(customUserDTO.password()),
                 USER,
                 true,
@@ -36,7 +36,7 @@ public class UserService {
                 true
         );
 
-        if (userRepository.findByEmailIgnoreCase(customUser.getEmail()).isPresent()) {
+        if (userRepository.findByUsernameIgnoreCase(customUser.getUsername()).isPresent()) {
 
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

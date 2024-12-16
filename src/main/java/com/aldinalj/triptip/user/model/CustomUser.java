@@ -14,10 +14,10 @@ public class CustomUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "display_name")
     private String displayName;
 
-    private String email;
+    private String username;
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -31,9 +31,9 @@ public class CustomUser {
 
     public CustomUser() {}
 
-    public CustomUser(String displayName, String email, String password, UserRole userRole, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
+    public CustomUser(String displayName, String username, String password, UserRole userRole, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnabled) {
         this.displayName = displayName;
-        this.email = email;
+        this.username = username;
         this.password = password;
         this.userRole = userRole;
         this.isAccountNonExpired = isAccountNonExpired;
@@ -58,12 +58,12 @@ public class CustomUser {
         this.displayName = displayName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -118,7 +118,7 @@ public class CustomUser {
     public String toString() {
         return "CustomUser{" +
                 "displayName='" + displayName + '\'' +
-                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", userRole=" + userRole +
                 ", isAccountNonExpired=" + isAccountNonExpired +

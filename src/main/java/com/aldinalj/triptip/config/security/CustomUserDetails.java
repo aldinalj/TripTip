@@ -27,7 +27,7 @@ import java.util.Collection;
         }
 
         public CustomUserDetails(CustomUser customUser) {
-            this.username = customUser.getEmail();
+            this.username = customUser.getUsername();
             this.password = customUser.getPassword();
             this.authorities = customUser.getAuthorities();
             this.isAccountNonExpired = customUser.isAccountNonExpired();
