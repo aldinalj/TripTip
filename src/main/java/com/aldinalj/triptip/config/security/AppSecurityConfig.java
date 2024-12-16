@@ -1,6 +1,8 @@
 package com.aldinalj.triptip.config.security;
 
 import com.aldinalj.triptip.authentication.jwt.JwtFilter;
+import com.aldinalj.triptip.authentication.jwt.RestAccessDeniedHandler;
+import com.aldinalj.triptip.authentication.jwt.RestAuthEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +24,16 @@ public class AppSecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final JwtFilter jwtFilter;
+    private final RestAuthEntryPoint restAuthEntryPoint;;
+    private final RestAccessDeniedHandler restAccessDeniedHandler;
 
     @Autowired
-    public AppSecurityConfig(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder, JwtFilter jwtFilter) {
+    public AppSecurityConfig(CustomUserDetailsService customUserDetailsService, PasswordEncoder passwordEncoder, JwtFilter jwtFilter, RestAuthEntryPoint restAuthEntryPoint, RestAccessDeniedHandler restAccessDeniedHandler) {
         this.customUserDetailsService = customUserDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.jwtFilter = jwtFilter;
+        this.restAuthEntryPoint = restAuthEntryPoint;
+        this.restAccessDeniedHandler = restAccessDeniedHandler;
     }
 
     @Bean
@@ -37,6 +43,10 @@ public class AppSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/register", "/dev/**").permitAll()
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(restAuthEntryPoint)
+                        .accessDeniedHandler(restAccessDeniedHandler)
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")

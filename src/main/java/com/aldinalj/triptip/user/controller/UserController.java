@@ -19,10 +19,5 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<CustomUserDTO> register(@Valid @RequestBody CustomUserDTO user) {
 
-        return userService.createUser(user);
-        
-    }
 }
