@@ -1,9 +1,14 @@
 package com.aldinalj.triptip.user.model;
 
+import com.aldinalj.triptip.trip.model.Trip;
 import com.aldinalj.triptip.user.authorities.UserRole;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,10 +19,18 @@ public class CustomUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Display name is required.")
+    @Size(min = 1, max = 20, message = "Display name must be between 1-20 characters")
+    @JsonProperty("display_name")
     @Column(name = "display_name")
     private String displayName;
 
+    @NotBlank(message = "Username is required")
+    @Size(min = 1, max = 20, message = "Username must be between 1-20 characters")
     private String username;
+
+    @NotBlank(message = "Password is required.")
+    @Size(min = 8, max = 30, message = "Length must be between 8-30 characters long")
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -28,6 +41,8 @@ public class CustomUser {
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Trip> trips = new ArrayList<>();
 
     public CustomUser() {}
 

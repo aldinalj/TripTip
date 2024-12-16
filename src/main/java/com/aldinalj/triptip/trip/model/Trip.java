@@ -1,5 +1,6 @@
 package com.aldinalj.triptip.trip.model;
 
+import com.aldinalj.triptip.user.model.CustomUser;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -31,6 +32,10 @@ public class Trip {
     @Column(name = "end_date")
     @JsonProperty("end_date")
     private LocalDate endDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "users_id", nullable = false)
+    private CustomUser user;
 
     public Trip() {}
 
@@ -75,6 +80,14 @@ public class Trip {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public CustomUser getUser() {
+        return user;
+    }
+
+    public void setUser(CustomUser user) {
+        this.user = user;
     }
 }
 
