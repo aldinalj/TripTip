@@ -1,6 +1,5 @@
 package com.aldinalj.triptip.config.security;
 
-import com.aldinalj.triptip.user.authorities.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,10 +30,9 @@ public class AppSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login").permitAll()
+                        .requestMatchers("/", "/login", "/register").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
                 )

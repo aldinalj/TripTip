@@ -21,11 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         CustomUser customUser = userRepository
-                .findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
 
         System.out.println("LOADING USER TO SPRING... " + customUser);
         return new CustomUserDetails(customUser);
