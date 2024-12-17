@@ -1,40 +1,31 @@
-package com.aldinalj.triptip.budget.model;
+package com.aldinalj.triptip.budget.model.dto;
 
-import com.aldinalj.triptip.trip.model.Trip;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "budget")
-public class Budget {
+public class BudgetDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    @NotBlank(message = "Budget name is required.")
     @Size(min = 2, max = 20, message = "Name must be between 2-20 characters long")
-    @Column(name = "name")
     @JsonProperty("name")
     private String budgetName;
 
     @Min(value = 0, message = "Total cannot be a negative number.")
     private Double total;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id", nullable = false)
-    private Trip trip;
+    @NotBlank(message = "Trip name is required.")
+    @Size(min = 1, max = 25, message = "Trip name must be between 1-25 characters long.")
+    @JsonProperty("trip_name")
+    private String tripName;
 
-    public Budget() {}
+    public BudgetDTO() {}
 
-    public Budget(String budgetName, Double total) {
+    public BudgetDTO(String budgetName, Double total, String tripName) {
         this.budgetName = budgetName;
         this.total = total;
-    }
-
-    public Long getId() {
-        return id;
+        this.tripName = tripName;
     }
 
     public String getBudgetName() {
@@ -53,11 +44,11 @@ public class Budget {
         this.total = total;
     }
 
-    public Trip getTrip() {
-        return trip;
+    public String getTripName() {
+        return tripName;
     }
 
-    public void setTrip(Trip trip) {
-        this.trip = trip;
+    public void setTripName(String tripName) {
+        this.tripName = tripName;
     }
 }

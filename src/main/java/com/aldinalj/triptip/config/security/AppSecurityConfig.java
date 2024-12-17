@@ -18,7 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-
 @Configuration
 @EnableWebSecurity
 public class AppSecurityConfig {
@@ -49,7 +48,7 @@ public class AppSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/register", "/dev/**", "/currency", "/weather/**").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/dev/**", "/currency", "/weather/**", "/budget/**").permitAll()
                         .requestMatchers("/trip/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )

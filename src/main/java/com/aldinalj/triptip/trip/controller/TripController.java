@@ -2,12 +2,10 @@ package com.aldinalj.triptip.trip.controller;
 
 import com.aldinalj.triptip.trip.model.dto.TripDTO;
 import com.aldinalj.triptip.trip.service.TripService;
-import com.aldinalj.triptip.user.model.CustomUser;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
