@@ -41,7 +41,7 @@ public class AppSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/register", "/dev/**").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/dev/**", "/currency").permitAll()
                         .requestMatchers("/trip/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )

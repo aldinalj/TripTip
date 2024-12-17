@@ -24,7 +24,7 @@ public class CurrencyService {
     public Mono<CurrencyDTO> fetchCurrency(String from, String to, Double amount) {
         return currencyWebClient.get()
                 .uri(uribuilder -> uribuilder
-                        .queryParam("api", apiKey)
+                        .queryParam("api_key", apiKey)
                         .queryParam("from", from)
                         .queryParam("to", to)
                         .queryParam("amount", amount)
