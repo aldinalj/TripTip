@@ -17,7 +17,7 @@ public class WebClientConfig {
     @Bean(name = "weatherWebClient")
     public WebClient weatherWebClient(WebClient.Builder builder) {
 
-        return builder.baseUrl("")
+        return builder.baseUrl("https://api.weatherbit.io/v2.0/current")
                 .build();
     }
 }
