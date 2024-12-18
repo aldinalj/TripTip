@@ -1,23 +1,14 @@
-package com.aldinalj.triptip.spending.model;
+package com.aldinalj.triptip.spending.model.dto;
 
-import com.aldinalj.triptip.budget.model.Budget;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "spending")
-public class Spending {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class SpendingDTO {
 
     @NotBlank(message = "Name cannot be blank.")
     @Size(min = 2, max = 40, message = "Name must be between 2-40 characters.")
-    @Column(name = "name")
     @JsonProperty("name")
     private String spendingName;
 
@@ -26,24 +17,21 @@ public class Spending {
     private String description;
 
     @Min(value = 0, message = "Value cannot be a negative number.")
-    @Column(name = "money_spent")
     @JsonProperty("money_spent")
     private Double moneySpent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "budget_id", nullable = false)
-    private Budget budget;
+    @NotBlank(message = "Budget name is required.")
+    @Size(min = 2, max = 20, message = "Budget name must be between 1-25 characters long.")
+    @JsonProperty("budget_name")
+    private String budgetName;
 
-    public Spending() {}
+    public SpendingDTO() {}
 
-    public Spending(String spendingName, String description, Double moneySpent) {
+    public SpendingDTO(String spendingName, String description, Double moneySpent, String budgetName) {
         this.spendingName = spendingName;
         this.description = description;
         this.moneySpent = moneySpent;
-    }
-
-    public Long getId() {
-        return id;
+        this.budgetName = budgetName;
     }
 
     public String getSpendingName() {
@@ -70,11 +58,11 @@ public class Spending {
         this.moneySpent = moneySpent;
     }
 
-    public Budget getBudget() {
-        return budget;
+    public String getBudgetName() {
+        return budgetName;
     }
 
-    public void setBudget(Budget budget) {
-        this.budget = budget;
+    public void setBudgetName(String budgetName) {
+        this.budgetName = budgetName;
     }
 }

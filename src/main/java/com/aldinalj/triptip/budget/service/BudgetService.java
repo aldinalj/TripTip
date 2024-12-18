@@ -26,12 +26,17 @@ public class BudgetService {
     @Transactional
     public ResponseEntity<BudgetDTO> createBudget(BudgetDTO budgetDTO) {
 
+        if (budgetRepository.findByBudgetNameIgnoreCase(budgetDTO.getBudgetName()).isPresent()) {
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         Budget budget = new Budget(
                 budgetDTO.getBudgetName(),
                 budgetDTO.getTotal()
         );
 
-            budget.setTrip(tripRepository.findByTripName(budgetDTO.getTripName())
+            budget.setTrip(tripRepository.findByTripNameIgnoreCase(budgetDTO.getTripName())
                     .orElseThrow(() -> new IllegalArgumentException("Trip not found")));
 
             budgetRepository.save(budget);

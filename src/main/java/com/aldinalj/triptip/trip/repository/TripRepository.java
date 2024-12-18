@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface TripRepository extends JpaRepository<Trip, Integer> {
 
-    Optional<Trip> findByTripName(String tripName);
+    Optional<Trip> findByTripNameIgnoreCase(String tripName);
 
 }

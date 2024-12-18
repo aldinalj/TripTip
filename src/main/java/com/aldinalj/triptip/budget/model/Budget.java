@@ -1,10 +1,14 @@
 package com.aldinalj.triptip.budget.model;
 
+import com.aldinalj.triptip.spending.model.Spending;
 import com.aldinalj.triptip.trip.model.Trip;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "budget")
@@ -25,6 +29,9 @@ public class Budget {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
+
+    @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Spending> spendings = new ArrayList<>();
 
     public Budget() {}
 

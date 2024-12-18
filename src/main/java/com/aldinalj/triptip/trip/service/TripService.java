@@ -28,6 +28,11 @@ public class TripService {
     @Transactional
     public ResponseEntity<TripDTO> createTrip(TripDTO tripDTO, Authentication authentication) throws Exception {
 
+        if (tripRepository.findByTripNameIgnoreCase(tripDTO.getTripName()).isPresent()) {
+
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         Trip trip = new Trip(
                 tripDTO.getTripName(),
                 tripDTO.getCountry(),
