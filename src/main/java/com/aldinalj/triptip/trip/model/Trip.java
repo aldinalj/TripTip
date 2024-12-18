@@ -1,5 +1,6 @@
 package com.aldinalj.triptip.trip.model;
 
+import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.budget.model.Budget;
 import com.aldinalj.triptip.user.model.CustomUser;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,6 +43,9 @@ public class Trip {
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Budget> budgets = new ArrayList<>();
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ActivityList> activityLists = new ArrayList<>();
 
     public Trip() {}
 

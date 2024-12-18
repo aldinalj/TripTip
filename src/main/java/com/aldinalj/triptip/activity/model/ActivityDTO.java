@@ -1,49 +1,36 @@
 package com.aldinalj.triptip.activity.model;
 
-import com.aldinalj.triptip.trip.model.Trip;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "activity")
-public class Activity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ActivityDTO {
 
     @Size(min = 2, max = 20, message = "Name must be between 2-20 characters long")
-    @Column(name = "name")
     @JsonProperty("name")
     private String activityName;
 
     @Min(value = 0, message = "Minimum price cannot be negative.")
     @JsonProperty("price_min")
-    @Column(name = "price_min")
     private Double priceMin;
 
     @Min(value = 0, message = "Maximum price cannot be negative.")
     @JsonProperty("price_max")
-    @Column(name = "price_max")
     private Double priceMax;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "activity_list_id", nullable = false)
-    private ActivityList activityList;
+    @NotBlank(message = "You must fill in a name.")
+    @Size(min = 2, max = 20, message = "Name must be between 2-20 characters long")
+    @JsonProperty("list_name")
+    private String activityListName;
 
-    public Activity() {}
+    public ActivityDTO() {}
 
-    public Activity(String activityName, Double priceMin, Double priceMax) {
+    public ActivityDTO(String activityName, Double priceMin, Double priceMax, String activityListName) {
         this.activityName = activityName;
         this.priceMin = priceMin;
         this.priceMax = priceMax;
-    }
-
-    public Long getId() {
-        return id;
+        this.activityListName = activityListName;
     }
 
     public String getActivityName() {
@@ -54,7 +41,7 @@ public class Activity {
         this.activityName = activityName;
     }
 
-    public double getPriceMin() {
+    public Double getPriceMin() {
         return priceMin;
     }
 
@@ -62,7 +49,7 @@ public class Activity {
         this.priceMin = priceMin;
     }
 
-    public double getPriceMax() {
+    public Double getPriceMax() {
         return priceMax;
     }
 
@@ -70,11 +57,11 @@ public class Activity {
         this.priceMax = priceMax;
     }
 
-    public ActivityList getActivityList() {
-        return activityList;
+    public String getActivityListName() {
+        return activityListName;
     }
 
-    public void setActivityList(ActivityList activityList) {
-        this.activityList = activityList;
+    public void setActivityListName(String activityListName) {
+        this.activityListName = activityListName;
     }
 }
