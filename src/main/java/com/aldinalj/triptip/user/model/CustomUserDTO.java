@@ -16,7 +16,7 @@ public record CustomUserDTO(
         String username,
 
         @NotBlank(message = "Password is required.")
-        @Size(min = 8, max = 30, message = "Length must be between 8-30 characters long")
+        @Size(min = 8, max = 36, message = "Length must be between 8-36 characters long")
         String password
 ) {
     public CustomUserDTO(String displayName, String username) {

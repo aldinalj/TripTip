@@ -1,3 +1,4 @@
+/*
 package com.aldinalj.triptip.user.service;
 
 import com.aldinalj.triptip.user.model.CustomUser;
@@ -24,3 +25,4 @@ public class UserService {
 
 
 }
+*/
