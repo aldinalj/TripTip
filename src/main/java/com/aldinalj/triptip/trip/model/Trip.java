@@ -3,6 +3,7 @@ package com.aldinalj.triptip.trip.model;
 import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.budget.model.Budget;
 import com.aldinalj.triptip.user.model.CustomUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -37,7 +38,8 @@ public class Trip {
     @JsonProperty("end_date")
     private LocalDate endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "users_id", nullable = false)
     private CustomUser user;
 

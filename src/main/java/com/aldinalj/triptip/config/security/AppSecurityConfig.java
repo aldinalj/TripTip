@@ -49,7 +49,7 @@ public class AppSecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/register", "/dev/**", "/currency", "/weather/**").permitAll()
-                        .requestMatchers("/trip/**", "/budget/**", "/spending/**").hasRole("USER")
+                        .requestMatchers("/trips/**", "/budget/**", "/spending/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling

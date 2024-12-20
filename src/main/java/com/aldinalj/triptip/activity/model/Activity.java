@@ -1,9 +1,7 @@
 package com.aldinalj.triptip.activity.model;
 
-import com.aldinalj.triptip.trip.model.Trip;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 

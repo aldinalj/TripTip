@@ -1,5 +1,6 @@
 package com.aldinalj.triptip.trip.service;
 
+import com.aldinalj.triptip.config.security.CustomUserDetails;
 import com.aldinalj.triptip.trip.model.Trip;
 import com.aldinalj.triptip.trip.model.dto.TripDTO;
 import com.aldinalj.triptip.trip.repository.TripRepository;
@@ -8,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class TripService {
@@ -53,5 +57,22 @@ public class TripService {
         tripRepository.save(trip);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(tripDTO);
+    }
+
+
+    @Transactional
+    public ResponseEntity<List<Trip>> getAllTrips(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        if (userDetails == null) {
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Long userId = userRepository.findIdByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        List<Trip> trips = tripRepository.findByUserId(userId);
+
+        return ResponseEntity.ok(trips);
     }
 }
