@@ -2,6 +2,7 @@ package com.aldinalj.triptip.budget.model;
 
 import com.aldinalj.triptip.spending.model.Spending;
 import com.aldinalj.triptip.trip.model.Trip;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "budget")
 public class Budget {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +28,8 @@ public class Budget {
     @Min(value = 0, message = "Total cannot be a negative number.")
     private Double total;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
