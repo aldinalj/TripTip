@@ -28,7 +28,7 @@ public class BudgetController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Budget>> getAllBudgets(@RequestParam ("tripname") String tripName) {
+    public ResponseEntity<List<Budget>> getAllBudgets(@RequestParam ("tripName") String tripName) {
 
         return budgetService.getAllBudgets(tripName);
     }

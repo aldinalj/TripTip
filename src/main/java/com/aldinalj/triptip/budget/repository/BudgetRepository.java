@@ -2,6 +2,7 @@ package com.aldinalj.triptip.budget.repository;
 
 import com.aldinalj.triptip.budget.model.Budget;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +14,8 @@ public interface BudgetRepository extends JpaRepository<Budget, Integer> {
     Optional<Budget> findByBudgetNameIgnoreCase(String budgetName);
 
     List<Budget> findByTripId(Long tripId);
+
+    @Query("SELECT b.id FROM Budget b WHERE LOWER(b.budgetName) = LOWER(:budgetName)")
+    Optional<Long> findIdByBudgetName(String budgetName);
+
 }

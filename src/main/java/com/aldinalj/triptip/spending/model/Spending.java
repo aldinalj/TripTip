@@ -1,6 +1,7 @@
 package com.aldinalj.triptip.spending.model;
 
 import com.aldinalj.triptip.budget.model.Budget;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -30,7 +31,8 @@ public class Spending {
     @JsonProperty("money_spent")
     private Double moneySpent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "budget_id", nullable = false)
     private Budget budget;
 
