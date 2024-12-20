@@ -6,12 +6,15 @@ import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.activity.model.ActivityListDTO;
 import com.aldinalj.triptip.activity.reporitory.ActivityListRepository;
 import com.aldinalj.triptip.activity.reporitory.ActivityRepository;
+import com.aldinalj.triptip.budget.model.Budget;
 import com.aldinalj.triptip.trip.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ActivityService {
@@ -46,6 +49,17 @@ public class ActivityService {
         activityListRepository.save(activityList);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(activityListDTO);
+    }
+
+    @Transactional
+    public ResponseEntity<List<ActivityList>> getAllActivityLists(String tripName) {
+
+        Long tripId = tripRepository.findIdByTripName(tripName)
+                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+
+        List<ActivityList> activityLists = activityListRepository.findByTripId(tripId);
+
+        return ResponseEntity.ok(activityLists);
     }
 
     @Transactional

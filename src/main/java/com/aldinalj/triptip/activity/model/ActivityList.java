@@ -1,6 +1,7 @@
 package com.aldinalj.triptip.activity.model;
 
 import com.aldinalj.triptip.trip.model.Trip;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -23,7 +24,8 @@ public class ActivityList {
     @JsonProperty("name")
     private String activityListName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
