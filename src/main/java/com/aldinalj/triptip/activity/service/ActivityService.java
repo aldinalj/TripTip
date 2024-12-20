@@ -88,4 +88,15 @@ public class ActivityService {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(activityDTO);
     }
+
+    @Transactional
+    public ResponseEntity<List<Activity>> getAllActivities(String activityListName) {
+
+        Long activityListId = activityListRepository.findIdByActivityListActivityListName(activityListName)
+                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+
+        List<Activity> activities = activityRepository.findByActivityListId(activityListId);
+
+        return ResponseEntity.ok(activities);
+    }
 }

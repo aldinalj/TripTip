@@ -1,5 +1,6 @@
 package com.aldinalj.triptip.activity.controller;
 
+import com.aldinalj.triptip.activity.model.Activity;
 import com.aldinalj.triptip.activity.model.ActivityDTO;
 import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.activity.model.ActivityListDTO;
@@ -38,6 +39,12 @@ public class ActivityController {
     public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO activityDTO) {
 
         return activityService.createActivity(activityDTO);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Activity>> getAllActivities(@RequestParam ("activityListName") String activityListName) {
+
+        return activityService.getAllActivities(activityListName);
     }
 
 

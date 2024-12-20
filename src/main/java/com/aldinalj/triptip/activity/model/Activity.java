@@ -1,5 +1,6 @@
 package com.aldinalj.triptip.activity.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -28,7 +29,8 @@ public class Activity {
     @Column(name = "price_max")
     private Double priceMax;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "activity_list_id", nullable = false)
     private ActivityList activityList;
 
