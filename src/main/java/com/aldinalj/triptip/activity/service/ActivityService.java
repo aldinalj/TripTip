@@ -6,7 +6,6 @@ import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.activity.model.ActivityListDTO;
 import com.aldinalj.triptip.activity.reporitory.ActivityListRepository;
 import com.aldinalj.triptip.activity.reporitory.ActivityRepository;
-import com.aldinalj.triptip.budget.model.Budget;
 import com.aldinalj.triptip.trip.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

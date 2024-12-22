@@ -1,11 +1,12 @@
 package com.aldinalj.triptip.spending.controller;
 
-import com.aldinalj.triptip.budget.model.Budget;
+import com.aldinalj.triptip.config.security.CustomUserDetails;
 import com.aldinalj.triptip.spending.model.Spending;
 import com.aldinalj.triptip.spending.model.dto.SpendingDTO;
 import com.aldinalj.triptip.spending.service.SpendingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +28,12 @@ public class SpendingController {
         return spendingService.createSpending(spendingDTO);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Spending>> getAllSpendings(@RequestParam ("budgetName") String budgetName) {
+    @GetMapping("/{budgetId}")
+    public ResponseEntity<List<Spending>> getAllSpendings(
+            @PathVariable Long budgetId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+            ) {
 
-        return spendingService.getAllSpendings(budgetName);
+        return spendingService.getAllSpendings(budgetId, userDetails);
     }
 }
