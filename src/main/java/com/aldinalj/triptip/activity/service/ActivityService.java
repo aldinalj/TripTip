@@ -6,7 +6,11 @@ import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.activity.model.ActivityListDTO;
 import com.aldinalj.triptip.activity.reporitory.ActivityListRepository;
 import com.aldinalj.triptip.activity.reporitory.ActivityRepository;
+import com.aldinalj.triptip.config.security.CustomUserDetails;
+import com.aldinalj.triptip.trip.model.Trip;
 import com.aldinalj.triptip.trip.repository.TripRepository;
+import com.aldinalj.triptip.user.model.CustomUser;
+import com.aldinalj.triptip.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +25,14 @@ public class ActivityService {
     private final ActivityListRepository activityListRepository;
     private final TripRepository tripRepository;
     private final ActivityRepository activityRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ActivityService(ActivityListRepository activityListRepository, TripRepository tripRepository, ActivityRepository activityRepository) {
+    public ActivityService(ActivityListRepository activityListRepository, TripRepository tripRepository, ActivityRepository activityRepository, UserRepository userRepository) {
         this.activityListRepository = activityListRepository;
         this.tripRepository = tripRepository;
         this.activityRepository = activityRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -51,15 +57,40 @@ public class ActivityService {
     }
 
     @Transactional
-    public ResponseEntity<List<ActivityList>> getAllActivityLists(String tripName) {
+    public ResponseEntity<List<ActivityList>> getActivityListsByTrip(Long tripId, CustomUserDetails userDetails) {
 
-        Long tripId = tripRepository.findIdByTripName(tripName)
+        if (userDetails == null) {
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
 
-        List<ActivityList> activityLists = activityListRepository.findByTripId(tripId);
+        List<ActivityList> activityLists = activityListRepository.findAllByTripId(trip.getId());
 
         return ResponseEntity.ok(activityLists);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Transactional
     public ResponseEntity<ActivityDTO> createActivity(ActivityDTO activityDTO) {
