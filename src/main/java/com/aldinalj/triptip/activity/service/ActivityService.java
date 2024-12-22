@@ -60,7 +60,6 @@ public class ActivityService {
     public ResponseEntity<List<ActivityList>> getActivityListsByTrip(Long tripId, CustomUserDetails userDetails) {
 
         if (userDetails == null) {
-
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -74,23 +73,6 @@ public class ActivityService {
 
         return ResponseEntity.ok(activityLists);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Transactional
     public ResponseEntity<ActivityDTO> createActivity(ActivityDTO activityDTO) {
@@ -120,12 +102,26 @@ public class ActivityService {
     }
 
     @Transactional
-    public ResponseEntity<List<Activity>> getAllActivities(String activityListName) {
+    public ResponseEntity<List<Activity>> getAllActivities(
+            Long activityListId,
+            CustomUserDetails userDetails
+    ) {
 
-        Long activityListId = activityListRepository.findIdByActivityListActivityListName(activityListName)
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
-        List<Activity> activities = activityRepository.findByActivityListId(activityListId);
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        ActivityList activityList = activityListRepository.findById(activityListId)
+                .orElseThrow(() -> new IllegalArgumentException("Activity list not found"));
+
+        if (tripRepository.findByIdAndUserId(activityList.getTrip().getId(), user.getId()).isEmpty()) {
+            throw new IllegalArgumentException("Trip not found");
+        }
+
+        List<Activity> activities = activityRepository.findAllByActivityListId(activityListId);
 
         return ResponseEntity.ok(activities);
     }

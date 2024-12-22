@@ -15,8 +15,4 @@ public interface BudgetRepository extends JpaRepository<Budget, Integer> {
     List<Budget> findAllByTripId(Long tripId);
 
     Optional<Budget> findById(Long id);
-
-
-
-
 }

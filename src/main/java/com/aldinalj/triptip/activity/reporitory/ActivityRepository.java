@@ -10,5 +10,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
     Optional<Activity> findByActivityNameIgnoreCase (String activityName);
 
-    List<Activity> findByActivityListId(Long activityListId);
+    List<Activity> findAllByActivityListId(Long activityListId);
 }

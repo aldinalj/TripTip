@@ -45,12 +45,12 @@ public class ActivityController {
         return activityService.createActivity(activityDTO);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Activity>> getAllActivities(@RequestParam ("activityListName") String activityListName) {
+    @GetMapping("/{activityListId}")
+    public ResponseEntity<List<Activity>> getAllActivities(
+            @PathVariable Long activityListId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
 
-        return activityService.getAllActivities(activityListName);
+        return activityService.getAllActivities(activityListId, userDetails);
     }
-
-
-    
 }

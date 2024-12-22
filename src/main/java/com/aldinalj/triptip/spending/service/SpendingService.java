@@ -6,7 +6,6 @@ import com.aldinalj.triptip.config.security.CustomUserDetails;
 import com.aldinalj.triptip.spending.model.Spending;
 import com.aldinalj.triptip.spending.model.dto.SpendingDTO;
 import com.aldinalj.triptip.spending.repository.SpendingRepository;
-import com.aldinalj.triptip.trip.model.Trip;
 import com.aldinalj.triptip.trip.repository.TripRepository;
 import com.aldinalj.triptip.user.model.CustomUser;
 import com.aldinalj.triptip.user.repository.UserRepository;
@@ -69,8 +68,9 @@ public class SpendingService {
         Budget budget = budgetRepository.findById(budgetId)
                 .orElseThrow(() -> new IllegalArgumentException("Budget not found"));
 
-        Trip trip = tripRepository.findByIdAndUserId(budget.getTrip().getId(), user.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+        if (tripRepository.findByIdAndUserId(budget.getTrip().getId(), user.getId()).isEmpty()) {
+            throw new IllegalArgumentException("Trip not found");
+        }
 
         List<Spending> spendings = spendingRepository.findAllByBudgetId(budgetId);
 
