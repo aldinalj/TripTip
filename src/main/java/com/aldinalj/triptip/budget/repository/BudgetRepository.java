@@ -13,9 +13,10 @@ public interface BudgetRepository extends JpaRepository<Budget, Integer> {
 
     Optional<Budget> findByBudgetNameIgnoreCase(String budgetName);
 
-    List<Budget> findByTripId(Long tripId);
-
     @Query("SELECT b.id FROM Budget b WHERE LOWER(b.budgetName) = LOWER(:budgetName)")
     Optional<Long> findIdByBudgetName(String budgetName);
+
+    List<Budget> findAllByTripId(Long tripId);
+
 
 }

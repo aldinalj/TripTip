@@ -3,6 +3,7 @@ package com.aldinalj.triptip.trip.model;
 import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.budget.model.Budget;
 import com.aldinalj.triptip.user.model.CustomUser;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -30,10 +31,12 @@ public class Trip {
     @Size(max = 40, message = "Country name cannot be more than 40 characters.")
     private String country;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "start_date")
     @JsonProperty("start_date")
     private LocalDate startDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "end_date")
     @JsonProperty("end_date")
     private LocalDate endDate;

@@ -3,15 +3,17 @@ package com.aldinalj.triptip.budget.service;
 import com.aldinalj.triptip.budget.model.Budget;
 import com.aldinalj.triptip.budget.model.dto.BudgetDTO;
 import com.aldinalj.triptip.budget.repository.BudgetRepository;
+import com.aldinalj.triptip.config.security.CustomUserDetails;
 import com.aldinalj.triptip.trip.model.Trip;
 import com.aldinalj.triptip.trip.repository.TripRepository;
+import com.aldinalj.triptip.user.model.CustomUser;
+import com.aldinalj.triptip.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 
@@ -20,12 +22,14 @@ public class BudgetService {
 
     private final BudgetRepository budgetRepository;
     private final TripRepository tripRepository;
+    private final UserRepository userRepository;
 
 
     @Autowired
-    public BudgetService(BudgetRepository budgetRepository, TripRepository tripRepository) {
+    public BudgetService(BudgetRepository budgetRepository, TripRepository tripRepository, UserRepository userRepository) {
         this.budgetRepository = budgetRepository;
         this.tripRepository = tripRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
@@ -50,13 +54,20 @@ public class BudgetService {
     }
 
     @Transactional
-    public ResponseEntity<List<Budget>> getAllBudgets(String tripName) {
+    public ResponseEntity<List<Budget>> getBudgetsByTrip(Long tripId, CustomUserDetails userDetails) {
 
+        if (userDetails == null) {
 
-        Long tripId = tripRepository.findIdByTripName(tripName)
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
 
-        List<Budget> budgets = budgetRepository.findByTripId(tripId);
+        List<Budget> budgets = budgetRepository.findAllByTripId(trip.getId());
 
         return ResponseEntity.ok(budgets);
     }
