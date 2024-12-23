@@ -39,6 +39,16 @@ public class ActivityController {
         return activityService.getActivityListsByTrip(tripId, userDetails);
     }
 
+    @GetMapping("/list/{activityListId}")
+    public ResponseEntity<ActivityList> getActivityListById(
+            @PathVariable Long activityListId,
+            @RequestParam Long tripId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return activityService.getActivityList(activityListId, tripId, customUserDetails);
+    }
+
+    /**************************************************************************************************/
+
     @PostMapping("/create")
     public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO activityDTO) {
 
@@ -53,4 +63,13 @@ public class ActivityController {
 
         return activityService.getAllActivities(activityListId, userDetails);
     }
+
+    @GetMapping("/activity/{activityId}")
+    public ResponseEntity<Activity> getActivity(
+            @PathVariable Long activityId,
+            @RequestParam Long activityListId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return activityService.getActivity(activityId, activityListId, customUserDetails);
+    }
+
 }

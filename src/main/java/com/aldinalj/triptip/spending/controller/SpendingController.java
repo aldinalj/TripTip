@@ -36,4 +36,14 @@ public class SpendingController {
 
         return spendingService.getAllSpendings(budgetId, userDetails);
     }
+
+    @GetMapping("/spending/{spendingId}")
+    public ResponseEntity<Spending> getSpending(
+            @PathVariable Long spendingId,
+            @RequestParam Long budgetId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+
+        return spendingService.getSpending(spendingId, budgetId, userDetails);
+    }
 }

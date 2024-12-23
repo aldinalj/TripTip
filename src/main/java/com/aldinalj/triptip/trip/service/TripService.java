@@ -75,4 +75,20 @@ public class TripService {
 
         return ResponseEntity.ok(trips);
     }
+
+    @Transactional
+    public ResponseEntity<Trip> getTrip(Long tripId, CustomUserDetails userDetails) {
+
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Long userId = userRepository.findIdByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        Trip trip = tripRepository.findByIdAndUserId(tripId, userId)
+                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+
+        return ResponseEntity.ok(trip);
+    }
 }

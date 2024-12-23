@@ -30,11 +30,14 @@ public class BudgetController {
     }
 
     @GetMapping("/{tripId}")
-    public ResponseEntity<List<Budget>> getBudgetsByTrip(
-            @PathVariable Long tripId,
-            @AuthenticationPrincipal CustomUserDetails userDetails
-            ) {
+    public ResponseEntity<List<Budget>> getBudgetsByTrip(@PathVariable Long tripId, @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         return budgetService.getBudgetsByTrip(tripId, userDetails);
+    }
+
+    @GetMapping("/budget/{budgetId}")
+    public ResponseEntity<Budget> getBudget(@PathVariable Long budgetId, @RequestParam Long tripId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        return budgetService.getBudget(budgetId, tripId, userDetails);
     }
 }

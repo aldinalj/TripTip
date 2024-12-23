@@ -36,5 +36,9 @@ public class TripController {
         return tripService.getAllTrips(customUserDetails);
     }
 
+    @GetMapping("/trip/{tripId}")
+    public ResponseEntity<Trip> getTrip(@PathVariable Long tripId, @AuthenticationPrincipal CustomUserDetails userDetails) {
 
+        return tripService.getTrip(tripId, userDetails);
+    }
 }

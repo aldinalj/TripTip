@@ -71,4 +71,24 @@ public class BudgetService {
 
         return ResponseEntity.ok(budgets);
     }
+
+    @Transactional
+    public ResponseEntity<Budget> getBudget(Long budgetId, Long tripId,  CustomUserDetails userDetails) {
+
+        if (userDetails == null) {
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
+
+        Budget budget = budgetRepository.findByIdAndTripId(budgetId, trip.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Budget not found"));
+
+        return ResponseEntity.ok(budget);
+    }
 }

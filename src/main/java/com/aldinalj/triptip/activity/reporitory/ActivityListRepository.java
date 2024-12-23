@@ -13,4 +13,7 @@ public interface ActivityListRepository extends JpaRepository<ActivityList, Long
     List<ActivityList> findAllByTripId(Long tripId);
 
     Optional<ActivityList> findById(Long id);
+
+    Optional<ActivityList> findByIdAndTripId(Long activityListId, Long tripId);
+
 }
