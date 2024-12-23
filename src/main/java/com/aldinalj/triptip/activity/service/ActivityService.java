@@ -87,7 +87,7 @@ public class ActivityService {
         Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
 
-        ActivityList activityList = activityListRepository.findByIdAndTripId(activityListId, tripId)
+        ActivityList activityList = activityListRepository.findByIdAndTripId(activityListId, trip.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Activity list not found"));
 
         return ResponseEntity.ok(activityList);
