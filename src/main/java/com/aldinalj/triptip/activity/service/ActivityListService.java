@@ -4,7 +4,6 @@ import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.activity.model.ActivityListDTO;
 import com.aldinalj.triptip.activity.reporitory.ActivityListRepository;
 import com.aldinalj.triptip.config.security.CustomUserDetails;
-import com.aldinalj.triptip.trip.model.Trip;
 import com.aldinalj.triptip.trip.repository.TripRepository;
 import com.aldinalj.triptip.user.model.CustomUser;
 import com.aldinalj.triptip.user.repository.UserRepository;
@@ -34,11 +33,6 @@ public class ActivityListService {
     @Transactional
     public ResponseEntity<ActivityListDTO> createActivityList(ActivityListDTO activityListDTO) {
 
-        if (activityListRepository.findByActivityListNameIgnoreCase(activityListDTO.getActivityListName()).isPresent()) {
-
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
-
         ActivityList activityList = new ActivityList(
                 activityListDTO.getActivityListName()
         );
@@ -54,17 +48,10 @@ public class ActivityListService {
     @Transactional
     public ResponseEntity<List<ActivityList>> getActivityListsByTrip(Long tripId, CustomUserDetails userDetails) {
 
-        if (userDetails == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         CustomUser user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
-
-        List<ActivityList> activityLists = activityListRepository.findAllByTripId(trip.getId());
+        List<ActivityList> activityLists = activityListRepository.findAllByTripIdAndUserId(tripId, user.getId());
 
         return ResponseEntity.ok(activityLists);
     }
@@ -72,17 +59,10 @@ public class ActivityListService {
     @Transactional
     public ResponseEntity<ActivityList> getActivityList(Long activityListId, Long tripId, CustomUserDetails userDetails) {
 
-        if (userDetails == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         CustomUser user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        Trip trip = tripRepository.findByIdAndUserId(tripId, user.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
-
-        ActivityList activityList = activityListRepository.findByIdAndTripId(activityListId, trip.getId())
+        ActivityList activityList = activityListRepository.findByIdAndTripIdAndUserId(activityListId, tripId, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Activity list not found"));
 
         return ResponseEntity.ok(activityList);

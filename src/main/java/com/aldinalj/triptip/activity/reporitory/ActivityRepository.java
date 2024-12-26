@@ -10,12 +10,6 @@ import java.util.Optional;
 
 public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
-    Optional<Activity> findByActivityNameIgnoreCase (String activityName);
-
-    List<Activity> findAllByActivityListId(Long activityListId);
-
-    Optional<Activity> findByIdAndActivityListId(Long activityId, Long activityListId);
-
     @Query(value = """
     SELECT a 
     FROM Trip t 
@@ -25,5 +19,9 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 """)
     List<Activity> findAllActivities(@Param("userId") Long userId);
 
+    @Query("SELECT a FROM Activity a JOIN a.activityList al JOIN al.trip t WHERE al.id = :activityListId AND t.user.id = :userId")
+    List<Activity> findAllByActivityListIdAndUserId(Long activityListId, Long userId);
 
+    @Query("SELECT a FROM Activity a JOIN a.activityList al JOIN al.trip t WHERE a.id = :activityId AND al.id = :activityListId AND t.user.id = :userId")
+    Optional<Activity> findByIdAndActivityListIdAndUserId(Long activityId, Long activityListId, Long userId);
 }

@@ -1,12 +1,10 @@
 package com.aldinalj.triptip.spending.service;
 
-import com.aldinalj.triptip.budget.model.Budget;
 import com.aldinalj.triptip.budget.repository.BudgetRepository;
 import com.aldinalj.triptip.config.security.CustomUserDetails;
 import com.aldinalj.triptip.spending.model.Spending;
 import com.aldinalj.triptip.spending.model.dto.SpendingDTO;
 import com.aldinalj.triptip.spending.repository.SpendingRepository;
-import com.aldinalj.triptip.trip.repository.TripRepository;
 import com.aldinalj.triptip.user.model.CustomUser;
 import com.aldinalj.triptip.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +22,12 @@ public class SpendingService {
     private final SpendingRepository spendingRepository;
     private final BudgetRepository budgetRepository;
     private final UserRepository userRepository;
-    private final TripRepository tripRepository;
 
     @Autowired
-    public SpendingService(SpendingRepository spendingRepository, BudgetRepository budgetRepository, UserRepository userRepository, TripRepository tripRepository) {
+    public SpendingService(SpendingRepository spendingRepository, BudgetRepository budgetRepository, UserRepository userRepository) {
         this.spendingRepository = spendingRepository;
         this.budgetRepository = budgetRepository;
         this.userRepository = userRepository;
-        this.tripRepository = tripRepository;
     }
 
     @Transactional
@@ -57,46 +53,23 @@ public class SpendingService {
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
 
-        if (userDetails == null) {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         CustomUser user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        Budget budget = budgetRepository.findById(budgetId)
-                .orElseThrow(() -> new IllegalArgumentException("Budget not found"));
-
-        if (tripRepository.findByIdAndUserId(budget.getTrip().getId(), user.getId()).isEmpty()) {
-            throw new IllegalArgumentException("Trip not found");
-        }
-
-        List<Spending> spendings = spendingRepository.findAllByBudgetId(budgetId);
-
+        List<Spending> spendings = spendingRepository.findAllByBudgetIdAndUserId(budgetId, user.getId());
 
         return ResponseEntity.ok(spendings);
     }
 
+
     @Transactional
-    public ResponseEntity<Spending> getSpending(Long spendingId, Long budgetId, CustomUserDetails userDetails) {
+    public ResponseEntity<Spending> getSpending(Long spendingId, CustomUserDetails userDetails) {
 
-        if (userDetails == null) {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
 
         CustomUser user = userRepository.findByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        Budget budget = budgetRepository.findById(budgetId)
-                .orElseThrow(() -> new IllegalArgumentException("Budget not found"));
-
-        if (tripRepository.findByIdAndUserId(budget.getTrip().getId(), user.getId()).isEmpty()) {
-            throw new IllegalArgumentException("Trip not found");
-        }
-
-        Spending spending = spendingRepository.findByIdAndBudgetId(spendingId, budgetId)
+        Spending spending = spendingRepository.findByIdAndUserId(spendingId, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Spending not found"));
 
         return ResponseEntity.ok(spending);

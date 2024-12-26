@@ -30,12 +30,7 @@ public class TripService {
     }
 
     @Transactional
-    public ResponseEntity<TripDTO> createTrip(TripDTO tripDTO, Authentication authentication) throws Exception {
-
-        if (tripRepository.findByTripNameIgnoreCase(tripDTO.getTripName()).isPresent()) {
-
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+    public ResponseEntity<TripDTO> createTrip(TripDTO tripDTO, Authentication authentication) {
 
         Trip trip = new Trip(
                 tripDTO.getTripName(),
@@ -63,11 +58,6 @@ public class TripService {
     @Transactional
     public ResponseEntity<List<Trip>> getAllTrips(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        if (userDetails == null) {
-
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         Long userId = userRepository.findIdByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -78,10 +68,6 @@ public class TripService {
 
     @Transactional
     public ResponseEntity<Trip> getTrip(Long tripId, CustomUserDetails userDetails) {
-
-        if (userDetails == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
 
         Long userId = userRepository.findIdByUsername(userDetails.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));

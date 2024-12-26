@@ -14,11 +14,6 @@ public interface BudgetRepository extends JpaRepository<Budget, Integer> {
 
     Optional<Budget> findByBudgetNameIgnoreCase(String budgetName);
 
-    List<Budget> findAllByTripId(Long tripId);
-
-    Optional<Budget> findById(Long id);
-
-    Optional<Budget> findByIdAndTripId(Long budgetId, Long tripId);
 
     @Query(value = """
     SELECT b 
@@ -27,4 +22,32 @@ public interface BudgetRepository extends JpaRepository<Budget, Integer> {
     WHERE t.user.id = :userId
 """)
     List<Budget> findAllBudgets(@Param("userId")Long userId);
+
+    @Query("""
+    SELECT b 
+    FROM Budget b 
+    JOIN b.trip t 
+    WHERE t.id = :tripId AND t.user.id = :userId
+""")
+    List<Budget> findAllByTripIdAndUserId(@Param("tripId") Long tripId, @Param("userId") Long userId);
+
+    @Query("""
+    SELECT b 
+    FROM Budget b 
+    JOIN b.trip t 
+    WHERE b.id = :budgetId AND t.id = :tripId AND t.user.id = :userId
+""")
+    Optional<Budget> findByIdAndTripIdAndUserId(
+            @Param("budgetId") Long budgetId,
+            @Param("tripId") Long tripId,
+            @Param("userId") Long userId
+    );
+
+    @Query("""
+    SELECT b 
+    FROM Budget b 
+    JOIN b.trip t 
+    WHERE b.id = :budgetId AND t.user.id = :userId
+""")
+    Optional<Budget> findByIdAndUserId(@Param("budgetId") Long budgetId, @Param("userId") Long userId);
 }

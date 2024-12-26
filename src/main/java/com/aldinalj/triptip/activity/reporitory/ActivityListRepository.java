@@ -12,11 +12,8 @@ public interface ActivityListRepository extends JpaRepository<ActivityList, Long
 
     Optional<ActivityList> findByActivityListNameIgnoreCase (String activityListName);
 
-    List<ActivityList> findAllByTripId(Long tripId);
-
     Optional<ActivityList> findById(Long id);
 
-    Optional<ActivityList> findByIdAndTripId(Long activityListId, Long tripId);
 
     @Query(value = """
     SELECT al
@@ -25,5 +22,11 @@ public interface ActivityListRepository extends JpaRepository<ActivityList, Long
     WHERE t.user.id = :userId
 """)
     List<ActivityList> findAllLists(@Param("userId") Long userId);
+
+    @Query("SELECT a FROM ActivityList a JOIN a.trip t WHERE t.id = :tripId AND t.user.id = :userId")
+    List<ActivityList> findAllByTripIdAndUserId(Long tripId, Long userId);
+
+    @Query("SELECT a FROM ActivityList a JOIN a.trip t WHERE a.id = :activityListId AND t.id = :tripId AND t.user.id = :userId")
+    Optional<ActivityList> findByIdAndTripIdAndUserId(Long activityListId, Long tripId, Long userId);
 
 }

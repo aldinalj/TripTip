@@ -12,10 +12,6 @@ import java.util.Optional;
 @Repository
 public interface SpendingRepository extends JpaRepository<Spending, Integer> {
 
-    List<Spending> findAllByBudgetId(Long budgetId);
-
-    Optional<Spending> findByIdAndBudgetId(Long spendingId, Long budgetId);
-
     @Query(value = """
     SELECT s 
     FROM Trip t 
@@ -24,4 +20,13 @@ public interface SpendingRepository extends JpaRepository<Spending, Integer> {
     WHERE t.user.id = :userId
 """)
     List<Spending> findAllSpendings(@Param("userId")Long userId);
+
+    @Query("SELECT s FROM Spending s WHERE s.budget.id = :budgetId")
+    List<Spending> findAllByBudgetId(@Param("budgetId") Long budgetId);
+
+    @Query("SELECT s FROM Spending s JOIN s.budget b JOIN b.trip t WHERE s.id = :spendingId AND t.user.id = :userId")
+    Optional<Spending> findByIdAndUserId(Long spendingId, Long userId);
+
+    @Query("SELECT s FROM Spending s JOIN s.budget b JOIN b.trip t WHERE b.id = :budgetId AND t.user.id = :userId")
+    List<Spending> findAllByBudgetIdAndUserId(Long budgetId, Long userId);
 }
