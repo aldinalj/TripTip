@@ -2,8 +2,6 @@ package com.aldinalj.triptip.activity.controller;
 
 import com.aldinalj.triptip.activity.model.Activity;
 import com.aldinalj.triptip.activity.model.ActivityDTO;
-import com.aldinalj.triptip.activity.model.ActivityList;
-import com.aldinalj.triptip.activity.model.ActivityListDTO;
 import com.aldinalj.triptip.activity.service.ActivityService;
 import com.aldinalj.triptip.config.security.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,31 +22,6 @@ public class ActivityController {
         this.activityService = activityService;
     }
 
-    @PostMapping("/lists/create")
-    public ResponseEntity<ActivityListDTO> createActivityList(@RequestBody ActivityListDTO activityListDTO) {
-
-        return activityService.createActivityList(activityListDTO);
-    }
-
-    @GetMapping("/lists/{tripId}")
-    public ResponseEntity<List<ActivityList>> getActivityListsByTrip(
-            @PathVariable Long tripId,
-            @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
-
-        return activityService.getActivityListsByTrip(tripId, userDetails);
-    }
-
-    @GetMapping("/list/{activityListId}")
-    public ResponseEntity<ActivityList> getActivityListById(
-            @PathVariable Long activityListId,
-            @RequestParam Long tripId,
-            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return activityService.getActivityList(activityListId, tripId, customUserDetails);
-    }
-
-    /**************************************************************************************************/
-
     @PostMapping("/create")
     public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO activityDTO) {
 
@@ -61,7 +34,7 @@ public class ActivityController {
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
 
-        return activityService.getAllActivities(activityListId, userDetails);
+        return activityService.getAllActivitiesByList(activityListId, userDetails);
     }
 
     @GetMapping("/activity/{activityId}")
@@ -70,6 +43,12 @@ public class ActivityController {
             @RequestParam Long activityListId,
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return activityService.getActivity(activityId, activityListId, customUserDetails);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Activity>> getAllActivities(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        return activityService.getAllActivities(userDetails);
     }
 
 }

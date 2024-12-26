@@ -29,12 +29,12 @@ public class SpendingController {
     }
 
     @GetMapping("/{budgetId}")
-    public ResponseEntity<List<Spending>> getAllSpendings(
+    public ResponseEntity<List<Spending>> getAllSpendingsByBudget(
             @PathVariable Long budgetId,
             @AuthenticationPrincipal CustomUserDetails userDetails
             ) {
 
-        return spendingService.getAllSpendings(budgetId, userDetails);
+        return spendingService.getAllSpendingsByBudget(budgetId, userDetails);
     }
 
     @GetMapping("/spending/{spendingId}")
@@ -45,5 +45,11 @@ public class SpendingController {
     ) {
 
         return spendingService.getSpending(spendingId, budgetId, userDetails);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Spending>> getAllSpendings(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        return spendingService.getAllSpendings(userDetails);
     }
 }

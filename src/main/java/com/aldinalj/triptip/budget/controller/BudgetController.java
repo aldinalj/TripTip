@@ -59,4 +59,10 @@ public class BudgetController {
 
         return budgetService.getAllBudgetSummaries(tripId, userDetails);
     }
+
+    @GetMapping
+    public ResponseEntity<List<Budget>> getAllBudgets(@AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        return budgetService.getAllBudgets(userDetails);
+    }
 }

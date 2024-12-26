@@ -170,5 +170,16 @@ public class BudgetService {
 
         return ResponseEntity.ok(response);
     }
+
+    @Transactional
+    public ResponseEntity<List<Budget>> getAllBudgets(CustomUserDetails userDetails) {
+
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        List<Budget> budgets = budgetRepository.findAllBudgets(user.getId());
+
+        return ResponseEntity.ok(budgets);
+    }
 }
 

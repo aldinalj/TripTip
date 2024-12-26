@@ -52,7 +52,7 @@ public class SpendingService {
     }
 
     @Transactional
-    public ResponseEntity<List<Spending>> getAllSpendings(
+    public ResponseEntity<List<Spending>> getAllSpendingsByBudget(
             Long budgetId,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
@@ -100,5 +100,16 @@ public class SpendingService {
                 .orElseThrow(() -> new IllegalArgumentException("Spending not found"));
 
         return ResponseEntity.ok(spending);
+    }
+
+    @Transactional
+    public ResponseEntity<List<Spending>> getAllSpendings(CustomUserDetails userDetails) {
+
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        List<Spending> spendings = spendingRepository.findAllSpendings(user.getId());
+
+        return ResponseEntity.ok(spendings);
     }
 }
