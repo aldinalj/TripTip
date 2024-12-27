@@ -50,4 +50,13 @@ public interface BudgetRepository extends JpaRepository<Budget, Integer> {
     WHERE b.id = :budgetId AND t.user.id = :userId
 """)
     Optional<Budget> findByIdAndUserId(@Param("budgetId") Long budgetId, @Param("userId") Long userId);
+
+    @Query("""
+    SELECT b 
+    FROM Budget b 
+    WHERE b.id = :budgetId 
+    AND b.trip.user.id = :userId
+""")
+    Optional<Budget> findByBudgetIdAndUserId(@Param("budgetId") Long budgetId, @Param("userId") Long userId);
+
 }

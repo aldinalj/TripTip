@@ -3,6 +3,7 @@ package com.aldinalj.triptip.spending.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class SpendingDTO {
@@ -20,18 +21,17 @@ public class SpendingDTO {
     @JsonProperty("money_spent")
     private Double moneySpent;
 
-    @NotBlank(message = "Budget name is required.")
-    @Size(min = 2, max = 20, message = "Budget name must be between 1-25 characters long.")
-    @JsonProperty("budget_name")
-    private String budgetName;
+    @NotNull(message = "Budget id is required.")
+    @JsonProperty("budget_id")
+    private Long budgetId;
 
     public SpendingDTO() {}
 
-    public SpendingDTO(String spendingName, String description, Double moneySpent, String budgetName) {
+    public SpendingDTO(String spendingName, String description, Double moneySpent, Long budgetId) {
         this.spendingName = spendingName;
         this.description = description;
         this.moneySpent = moneySpent;
-        this.budgetName = budgetName;
+        this.budgetId = budgetId;
     }
 
     public String getSpendingName() {
@@ -58,11 +58,11 @@ public class SpendingDTO {
         this.moneySpent = moneySpent;
     }
 
-    public String getBudgetName() {
-        return budgetName;
+    public Long getBudgetId() {
+        return budgetId;
     }
 
-    public void setBudgetName(String budgetName) {
-        this.budgetName = budgetName;
+    public void setBudgetId(Long budgetId) {
+        this.budgetId = budgetId;
     }
 }

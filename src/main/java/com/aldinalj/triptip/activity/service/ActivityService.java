@@ -2,6 +2,7 @@ package com.aldinalj.triptip.activity.service;
 
 import com.aldinalj.triptip.activity.model.Activity;
 import com.aldinalj.triptip.activity.model.ActivityDTO;
+import com.aldinalj.triptip.activity.model.ActivityList;
 import com.aldinalj.triptip.activity.reporitory.ActivityListRepository;
 import com.aldinalj.triptip.activity.reporitory.ActivityRepository;
 import com.aldinalj.triptip.config.security.CustomUserDetails;
@@ -30,12 +31,18 @@ public class ActivityService {
     }
 
     @Transactional
-    public ResponseEntity<ActivityDTO> createActivity(ActivityDTO activityDTO) {
+    public ResponseEntity<ActivityDTO> createActivity(ActivityDTO activityDTO, CustomUserDetails userDetails) {
 
         if (activityDTO.getPriceMax() < activityDTO.getPriceMin()) {
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(activityDTO);
         }
+
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        ActivityList activityList = activityListRepository.findByListIdAndUserId(activityDTO.getListId(), user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Activity list not found"));
 
         Activity activity = new Activity(
                 activityDTO.getActivityName(),
@@ -43,9 +50,7 @@ public class ActivityService {
                 activityDTO.getPriceMax()
         );
 
-        activity.setActivityList(activityListRepository.findByActivityListNameIgnoreCase(activityDTO.getActivityListName())
-        .orElseThrow(() -> new IllegalArgumentException("Activity list not found")));
-
+        activity.setActivityList(activityList);
         activityRepository.save(activity);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(activityDTO);

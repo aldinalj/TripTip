@@ -6,6 +6,7 @@ import com.aldinalj.triptip.budget.repository.BudgetRepository;
 import com.aldinalj.triptip.config.security.CustomUserDetails;
 import com.aldinalj.triptip.spending.model.Spending;
 import com.aldinalj.triptip.spending.repository.SpendingRepository;
+import com.aldinalj.triptip.trip.model.Trip;
 import com.aldinalj.triptip.trip.repository.TripRepository;
 import com.aldinalj.triptip.user.model.CustomUser;
 import com.aldinalj.triptip.user.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,19 +41,23 @@ public class BudgetService {
     }
 
     @Transactional
-    public ResponseEntity<BudgetDTO> createBudget(BudgetDTO budgetDTO) {
+    public ResponseEntity<BudgetDTO> createBudget(BudgetDTO budgetDTO, CustomUserDetails userDetails) {
+
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Trip trip = tripRepository.findByTripIdAndUserId(budgetDTO.getTripId(), user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Trip not found"));
 
         Budget budget = new Budget(
                 budgetDTO.getBudgetName(),
                 budgetDTO.getTotal()
         );
 
-            budget.setTrip(tripRepository.findByTripNameIgnoreCase(budgetDTO.getTripName())
-                    .orElseThrow(() -> new IllegalArgumentException("Trip not found")));
+        budget.setTrip(trip);
+        budgetRepository.save(budget);
 
-            budgetRepository.save(budget);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(budgetDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(budgetDTO);
     }
 
     @Transactional

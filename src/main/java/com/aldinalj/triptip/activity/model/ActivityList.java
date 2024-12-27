@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class ActivityList {
     @JsonProperty("name")
     private String activityListName;
 
+    @NotNull(message = "Trip id is required.")
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "trip_id", nullable = false)
@@ -35,8 +37,8 @@ public class ActivityList {
 
     public ActivityList() {}
 
-    public ActivityList(String activityName) {
-        this.activityListName = activityName;
+    public ActivityList(String activityListName) {
+        this.activityListName = activityListName;
     }
 
     public Long getId() {

@@ -23,9 +23,9 @@ public class ActivityController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO activityDTO) {
+    public ResponseEntity<ActivityDTO> createActivity(@RequestBody ActivityDTO activityDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        return activityService.createActivity(activityDTO);
+        return activityService.createActivity(activityDTO, userDetails);
     }
 
     @GetMapping("/{activityListId}")

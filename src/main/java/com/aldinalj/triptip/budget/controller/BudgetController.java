@@ -25,9 +25,9 @@ public class BudgetController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<BudgetDTO> createBudget(@Valid @RequestBody BudgetDTO budgetDTO) {
+    public ResponseEntity<BudgetDTO> createBudget(@Valid @RequestBody BudgetDTO budgetDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        return budgetService.createBudget(budgetDTO);
+        return budgetService.createBudget(budgetDTO, userDetails);
     }
 
     @GetMapping("/{tripId}")

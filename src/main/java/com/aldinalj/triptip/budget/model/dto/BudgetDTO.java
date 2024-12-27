@@ -3,6 +3,7 @@ package com.aldinalj.triptip.budget.model.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class BudgetDTO {
@@ -15,17 +16,16 @@ public class BudgetDTO {
     @Min(value = 0, message = "Total cannot be a negative number.")
     private Double total;
 
-    @NotBlank(message = "Trip name is required.")
-    @Size(min = 1, max = 25, message = "Trip name must be between 1-25 characters long.")
-    @JsonProperty("trip_name")
-    private String tripName;
+    @NotNull(message = "Trip id is required.")
+    @JsonProperty("trip_id")
+    private Long tripId;
 
     public BudgetDTO() {}
 
-    public BudgetDTO(String budgetName, Double total, String tripName) {
+    public BudgetDTO(String budgetName, Double total, Long tripId) {
         this.budgetName = budgetName;
         this.total = total;
-        this.tripName = tripName;
+        this.tripId = tripId;
     }
 
     public String getBudgetName() {
@@ -44,11 +44,11 @@ public class BudgetDTO {
         this.total = total;
     }
 
-    public String getTripName() {
-        return tripName;
+    public Long getTripId() {
+        return tripId;
     }
 
-    public void setTripName(String tripName) {
-        this.tripName = tripName;
+    public void setTripId(Long tripId) {
+        this.tripId = tripId;
     }
 }

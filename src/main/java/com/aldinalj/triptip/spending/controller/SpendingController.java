@@ -23,9 +23,9 @@ public class SpendingController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<SpendingDTO> createSpending(@RequestBody SpendingDTO spendingDTO) {
+    public ResponseEntity<SpendingDTO> createSpending(@RequestBody SpendingDTO spendingDTO, @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-        return spendingService.createSpending(spendingDTO);
+        return spendingService.createSpending(spendingDTO, userDetails);
     }
 
     @GetMapping("/{budgetId}")

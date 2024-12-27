@@ -2,6 +2,7 @@ package com.aldinalj.triptip.activity.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ActivityListDTO {
@@ -11,32 +12,15 @@ public class ActivityListDTO {
     @JsonProperty("name")
     private String activityListName;
 
-    @NotBlank(message = "Trip name is required.")
-    @Size(min = 1, max = 25, message = "Trip name must be between 1-25 characters long.")
-    @JsonProperty("trip_name")
-    private String tripName;
+    @NotNull(message = "Trip id is required.")
+    @JsonProperty("trip_id")
+    private Long tripId;
 
     public ActivityListDTO() {}
 
-    public ActivityListDTO(String activityName, String tripName) {
-        this.activityListName = activityName;
-        this.tripName = tripName;
-    }
-
-    public String getActivityName() {
-        return activityListName;
-    }
-
-    public void setActivityName(String activityName) {
-        this.activityListName = activityName;
-    }
-
-    public String getTripName() {
-        return tripName;
-    }
-
-    public void setTripName(String tripName) {
-        this.tripName = tripName;
+    public ActivityListDTO(String activityListName, Long tripId) {
+        this.activityListName = activityListName;
+        this.tripId = tripId;
     }
 
     public String getActivityListName() {
@@ -45,5 +29,13 @@ public class ActivityListDTO {
 
     public void setActivityListName(String activityListName) {
         this.activityListName = activityListName;
+    }
+
+    public Long getTripId() {
+        return tripId;
+    }
+
+    public void setTripId(Long tripId) {
+        this.tripId = tripId;
     }
 }

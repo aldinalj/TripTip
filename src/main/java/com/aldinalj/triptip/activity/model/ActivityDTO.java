@@ -2,7 +2,7 @@ package com.aldinalj.triptip.activity.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ActivityDTO {
@@ -19,18 +19,17 @@ public class ActivityDTO {
     @JsonProperty("price_max")
     private Double priceMax;
 
-    @NotBlank(message = "You must fill in a name.")
-    @Size(min = 2, max = 20, message = "Name must be between 2-20 characters long")
-    @JsonProperty("list_name")
-    private String activityListName;
+    @NotNull(message = "List id is required.")
+    @JsonProperty("list_id")
+    private Long listId;
 
     public ActivityDTO() {}
 
-    public ActivityDTO(String activityName, Double priceMin, Double priceMax, String activityListName) {
+    public ActivityDTO(String activityName, Double priceMin, Double priceMax, Long listId) {
         this.activityName = activityName;
         this.priceMin = priceMin;
         this.priceMax = priceMax;
-        this.activityListName = activityListName;
+        this.listId = listId;
     }
 
     public String getActivityName() {
@@ -57,11 +56,11 @@ public class ActivityDTO {
         this.priceMax = priceMax;
     }
 
-    public String getActivityListName() {
-        return activityListName;
+    public Long getListId() {
+        return listId;
     }
 
-    public void setActivityListName(String activityListName) {
-        this.activityListName = activityListName;
+    public void setListId(Long listId) {
+        this.listId = listId;
     }
 }

@@ -1,6 +1,7 @@
 package com.aldinalj.triptip.activity.reporitory;
 
 import com.aldinalj.triptip.activity.model.ActivityList;
+import com.aldinalj.triptip.budget.model.Budget;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,5 +29,14 @@ public interface ActivityListRepository extends JpaRepository<ActivityList, Long
 
     @Query("SELECT a FROM ActivityList a JOIN a.trip t WHERE a.id = :activityListId AND t.id = :tripId AND t.user.id = :userId")
     Optional<ActivityList> findByIdAndTripIdAndUserId(Long activityListId, Long tripId, Long userId);
+
+    @Query("""
+    SELECT al 
+    FROM ActivityList al 
+    WHERE al.id = :listId 
+    AND al.trip.user.id = :userId
+""")
+    Optional<ActivityList> findByListIdAndUserId(@Param("listId") Long listId, @Param("userId") Long userId);
+
 
 }

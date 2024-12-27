@@ -1,5 +1,6 @@
 package com.aldinalj.triptip.spending.service;
 
+import com.aldinalj.triptip.budget.model.Budget;
 import com.aldinalj.triptip.budget.repository.BudgetRepository;
 import com.aldinalj.triptip.config.security.CustomUserDetails;
 import com.aldinalj.triptip.spending.model.Spending;
@@ -31,7 +32,13 @@ public class SpendingService {
     }
 
     @Transactional
-    public ResponseEntity<SpendingDTO> createSpending(SpendingDTO spendingDTO) {
+    public ResponseEntity<SpendingDTO> createSpending(SpendingDTO spendingDTO, CustomUserDetails userDetails) {
+
+        CustomUser user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        Budget budget = budgetRepository.findByBudgetIdAndUserId(spendingDTO.getBudgetId(), user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Budget not found"));
 
         Spending spending = new Spending(
                 spendingDTO.getSpendingName(),
@@ -39,9 +46,7 @@ public class SpendingService {
                 spendingDTO.getMoneySpent()
         );
 
-        spending.setBudget(budgetRepository.findByBudgetNameIgnoreCase(spendingDTO.getBudgetName())
-                .orElseThrow(() -> new IllegalArgumentException("Budget not found")));
-
+        spending.setBudget(budget);
         spendingRepository.save(spending);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(spendingDTO);
