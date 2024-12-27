@@ -22,17 +22,14 @@ public class CurrencyService {
     }
 
     public Mono<CurrencyDTO> fetchCurrency(String from, String to, Double amount) {
-        return currencyWebClient.get()
-                .uri(uribuilder -> uribuilder
-                        .queryParam("api_key", apiKey)
-                        .queryParam("from", from)
-                        .queryParam("to", to)
-                        .queryParam("amount", amount)
-                        .build()
-                )
-                .retrieve()
-                .bodyToMono(CurrencyDTO.class);
 
+
+            String uri = String.format("/%s/pair/%s/%s/%s", apiKey, from, to, amount);
+
+            return currencyWebClient.get()
+                    .uri(uri)
+                    .retrieve()
+                    .bodyToMono(CurrencyDTO.class);
     }
 
 }

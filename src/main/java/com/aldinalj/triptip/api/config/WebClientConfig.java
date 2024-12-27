@@ -10,7 +10,7 @@ public class WebClientConfig {
     @Bean(name = "currencyWebClient")
     public WebClient currencyWebClient(WebClient.Builder builder) {
 
-        return builder.baseUrl("https://www.amdoren.com/api/currency.php")
+        return builder.baseUrl("https://v6.exchangerate-api.com/v6")
                 .build();
     }
 
