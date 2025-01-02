@@ -1,4 +1,4 @@
-package com.aldinalj.triptip.config;
+package com.aldinalj.triptip.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +10,6 @@ public class AppPasswordConfig {
 
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder(4);
+        return new BCryptPasswordEncoder(14);
     }
 }

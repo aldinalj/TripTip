@@ -12,9 +12,6 @@ import java.util.Optional;
 @Repository
 public interface BudgetRepository extends JpaRepository<Budget, Integer> {
 
-    Optional<Budget> findByBudgetNameIgnoreCase(String budgetName);
-
-
     @Query(value = """
     SELECT b 
     FROM Trip t 
